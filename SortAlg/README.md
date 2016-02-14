@@ -10,3 +10,48 @@
 * RAM: 8Gb DDR3
 * OS: OS X 10.11
 * GCC: 4.2.3
+
+## Полезности
+
+#### Генерация псевдослучайных чисел
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+/* getrand: Returns random number from [min, max) */
+int getrand(int min, int max)
+{
+    return (double)rand() / (RAND_MAX + 1.0) * (max - min) + min;
+}
+
+int main()
+{
+    int r = getrand(1, 1001); // Псевдослучайное число 1 <= r <= 1000
+
+    return 0;
+}
+```
+#### Измерение времени выполнения кода
+```c
+#include <sys/time.h>
+#include <stdio.h>
+
+double wtime()
+{
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
+}
+
+int main()
+{
+    double t;
+
+    t = wtime();
+    /* Code */
+    t = wtime() - t;
+
+    printf("Elapsed time: %.6f sec.\n", t);  
+    return 0;
+}
+```
