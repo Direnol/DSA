@@ -1,4 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
- 
-void countingSort(int *array, int n);
+#ifndef COUNTING_H
+#define COUNTING_H
+
+void countingSort(int *a, int n);
+
+#endif
