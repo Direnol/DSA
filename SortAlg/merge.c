@@ -1,6 +1,7 @@
 #include "merge.h"
 
-void merge(int *array, int *left_array, int left_count, int *right_array, int right_count)
+void merge(int *array, int *left_array, int left_count, int *right_array,
+           int right_count)
 {
     int i, j, k = 0;
 
