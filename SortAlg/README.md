@@ -55,3 +55,5 @@ int main()
     return 0;
 }
 ```
+#### Кодстайл
+`indent -kr -ci4 -cli4 -i4 -l80 -nut`
