@@ -1,16 +1,18 @@
 #include "bubble.h"
 
-void bubbleSort(int *a, int n)
+void bubbleSort(int *array, int size)
 {
-    int i, t, s = 1;
-    while (s) {
-        s = 0;
-        for (i = 1; i < n; i++) {
-            if (a[i] < a[i - 1]) {
-                t = a[i];
-                a[i] = a[i - 1];
-                a[i - 1] = t;
-                s = 1;
+    int i, temp;
+    int flag = 1;
+    
+    while (flag) {
+        flag = 0;
+        for (i = 1; i < size; i++) {
+            if (array[i] < array[i - 1]) {
+                temp = array[i];
+                array[i] = array[i - 1];
+                array[i - 1] = temp;
+                flag = 1;
             }
         }
     }

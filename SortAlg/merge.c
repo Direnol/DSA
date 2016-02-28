@@ -1,51 +1,43 @@
 #include "merge.h"
 
-void merge(int *A, int *L, int leftCount, int *R, int rightCount)
+void merge(int *array, int *left_array, int left_count, int *right_array, int right_count)
 {
-    int i, j, k;
-    // i - to mark the index of left aubarray (L)
-    // j - to mark the index of right sub-raay (R)
-    // k - to mark the index of merged subarray (A)
-    i = 0;
-    j = 0;
-    k = 0;
+    int i, j, k = 0;
 
-    while (i < leftCount && j < rightCount) {
-        if (L[i] < R[j])
-            A[k++] = L[i++];
+    while (i < left_count && j < right_count) {
+        if (left_array[i] < right_array[j])
+            array[k++] = left_array[i++];
         else
-            A[k++] = R[j++];
+            array[k++] = right_array[j++];
     }
 
-    while (i < leftCount)
-        A[k++] = L[i++];
-    while (j < rightCount)
-        A[k++] = R[j++];
+    while (i < left_count)
+        array[k++] = left_array[i++];
+    while (j < right_count)
+        array[k++] = right_array[j++];
 }
 
-void mergeSort(int *A, int n)
+void mergeSort(int *array, int size)
 {
-    int mid, i, *L, *R;
+    int mid, i, *left_array, *right_array;
 
-    if (n < 2)
-        return;                 // base condition. If the array has less
-    // than two element, do nothing. 
+    if (size < 2)
+        return;
 
-    mid = n / 2;                // find the mid index. 
+    mid = size / 2;
 
-    L = (int *) malloc(mid * sizeof(int));
-    R = (int *) malloc((n - mid) * sizeof(int));
+    left_array = (int *) malloc(mid * sizeof(int));
+    right_array = (int *) malloc((size - mid) * sizeof(int));
 
     for (i = 0; i < mid; i++)
-        L[i] = A[i];            // creating left subarray
-    for (i = mid; i < n; i++)
-        R[i - mid] = A[i];      // creating right subarray
+        left_array[i] = array[i];
+    for (i = mid; i < size; i++)
+        right_array[i - mid] = array[i];
 
-    mergeSort(L, mid);          // sorting the left subarray
-    mergeSort(R, n - mid);      // sorting the right subarray
-    merge(A, L, mid, R, n - mid);       // Merging L and R into A as
-    // sorted list.
+    mergeSort(left_array, mid);
+    mergeSort(right_array, size - mid);
+    merge(array, left_array, mid, right_array, size - mid);
 
-    free(L);
-    free(R);
+    free(left_array);
+    free(right_array);
 }
