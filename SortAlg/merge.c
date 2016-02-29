@@ -27,8 +27,8 @@ void mergeSort(int *array, int size)
 
     mid = size / 2;
 
-    left_array = (int *) malloc(mid * sizeof(int));
-    right_array = (int *) malloc((size - mid) * sizeof(int));
+    left_array = (int *) malloc(sizeof(int) * mid);
+    right_array = (int *) malloc(sizeof(int) * (size - mid));
 
     for (i = 0; i < mid; i++)
         left_array[i] = array[i];
