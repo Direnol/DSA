@@ -1,5 +1,5 @@
 set terminal png size 800,480 enhanced font 'Arial, 16'
-set output 'quick_counting_sort.png'
+set output 'sort.png'
 
 set style line 1 linecolor rgb 'red' linetype 2 linewidth 2
 set style line 2 linecolor rgb 'blue' linetype 3 linewidth 2
@@ -19,6 +19,6 @@ set rmargin 4
 set tmargin 2
 set mxtics
 
-plot "qsort.dat" using 1:2 title "QuickSort" with linespoints ls 1,\
-     "csort.dat" using 1:2 title "CountingSort" with linespoints ls 3
-# "bsort.dat" using 1:2 title "BubbleSort" with linespoints ls 2, \
+plot "qsort.dat" using 1:2 title "QuickSort" with linespoints ls 1
+     "csort.dat" using 1:2 title "CountingSort" with linespoints ls 3, \
+     "bsort.dat" using 1:2 title "BubbleSort" with linespoints ls 2, \

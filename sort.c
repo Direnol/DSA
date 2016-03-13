@@ -4,16 +4,16 @@
 #include <sys/time.h>
 
 void CountingSort(int *array, int size);
-void QuickSort(uint32_t *mas, int first, int last);
+void QuickSort(uint32_t * mas, int first, int last);
 void BubbleSort(uint32_t mass[], int size);
 int getrand(int min, int max);
 double wtime();
 
-int main (int argc, char * argv[])
+int main(int argc, char *argv[])
 {
     int i;
     double t;
-    FILE * ptr;
+    FILE *ptr;
 
     if (argc < 2) {
         printf("Missing array size!");
@@ -21,14 +21,14 @@ int main (int argc, char * argv[])
     }
 
     if (argc < 3) {
-        printf ("Not number sort!");
+        printf("Not number sort!");
         return EXIT_FAILURE;
     }
 
     int array_size = atoi(argv[1]);
     int s = atoi(argv[2]);
 
-    if ((s != 1) && (s != 2) && (s !=3 )) {
+    if ((s != 1) && (s != 2) && (s != 3)) {
         printf("No correct number sort!");
         return EXIT_FAILURE;
     }
@@ -40,7 +40,7 @@ int main (int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    for(i = 0; i < array_size; i++) {
+    for (i = 0; i < array_size; i++) {
         array[i] = getrand(1, 100001);
         // printf("array[%d] = %d\n", i, array[i]);
     }
@@ -58,7 +58,7 @@ int main (int argc, char * argv[])
     } else if (s == 3) {
         t = wtime();
         CountingSort(array, array_size);
-        t = wtime()- t;
+        t = wtime() - t;
         ptr = fopen("csort.dat", "a");
     }
 
@@ -66,7 +66,7 @@ int main (int argc, char * argv[])
     fclose(ptr);
 
     /* for (i = 0; i < array_size; i++)
-        printf("a[%d] = %d\n", i, array[i]); */
+       printf("a[%d] = %d\n", i, array[i]); */
 
     free(array);
     return EXIT_SUCCESS;
@@ -95,7 +95,7 @@ void CountingSort(int *array, int size)
         C[array[i]]++;
     }
 
-    for (i = 1; i <= K ; i++)
+    for (i = 1; i <= K; i++)
         C[i] += C[i - 1];
 
     for (i = (size - 1); i >= 0; i--) {
@@ -110,24 +110,24 @@ void CountingSort(int *array, int size)
     free(B);
 }
 
-void QuickSort(uint32_t *mas, int first, int last)
+void QuickSort(uint32_t * mas, int first, int last)
 {
     int mid, tmp;
     int f = first, l = last;
-    mid = mas[(f + l) / 2]; // вычисление опорного элемента
+    mid = mas[(f + l) / 2];     // вычисление опорного элемента
     do {
         while (mas[f] < mid)
             f++;
         while (mas[l] > mid)
             l--;
-        if (f <= l) { // перестановка элементов
+        if (f <= l) {           // перестановка элементов
             tmp = mas[f];
             mas[f] = mas[l];
             mas[l] = tmp;
             f++;
             l--;
         }
-    } while (f < l);
+    } while (f <= l);
     if (first < l)
         QuickSort(mas, first, l);
     if (f < last)
@@ -138,15 +138,14 @@ void BubbleSort(uint32_t arr[], int size)
 {
     int tmp, i, j;
 
-    for(i = 0; i < size - 1; ++i) // i - номер прохода
+    for (i = 0; i < size - 1; i++)      // i - номер прохода
     {
-        for(j = 0; j < size - 1; ++j) // внутренний цикл прохода
+        for (j = 0; j < size - 1; j++)  // внутренний цикл прохода
         {
-            if (arr[j + 1] < arr[j])
-            {
-                tmp = arr[j + 1];
-                arr[j + 1] = arr[j];
-                arr[j] = tmp;
+            if (arr[j] > arr[j + 1]) {
+                tmp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = tmp;
             }
         }
     }
@@ -154,12 +153,12 @@ void BubbleSort(uint32_t arr[], int size)
 
 int getrand(int min, int max)
 {
-    return (double)rand() / (RAND_MAX + 1.0) * (max - min) + min;
+    return (double) rand() / (RAND_MAX + 1.0) * (max - min) + min;
 }
 
 double wtime()
 {
     struct timeval t;
     gettimeofday(&t, NULL);
-    return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
+    return (double) t.tv_sec + (double) t.tv_usec * 1E-6;
 }
