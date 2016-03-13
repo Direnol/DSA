@@ -1,6 +1,5 @@
 #!/usr/bin/gnuplot
 set terminal png size 800,480 enhanced font 'Arial, 16'
-set output 'sort.png'
 
 set style line 1 linecolor rgb 'red' linetype 1 linewidth 2
 set style line 2 linecolor rgb 'blue' linetype 1 linewidth 2
@@ -20,6 +19,11 @@ set rmargin 4
 set tmargin 2
 set mxtics
 
-plot "data.dat" using 1:2 title "Merge Sort" with linespoints ls 1, \
+set output 'sort_all.png'
+plot "data.dat" using 1:4 title "Merge Sort" with linespoints ls 1, \
 	"data.dat" using 1:3 title "Bubble Sort" with linespoints ls 2, \
-	"data.dat" using 1:4 title "Counting Sort" with linespoints ls 3
+	"data.dat" using 1:2 title "Counting Sort" with linespoints ls 3
+
+set output 'sort_candm.png'
+plot "data.dat" using 1:4 title "Merge Sort" with linespoints ls 1, \
+	"data.dat" using 1:2 title "Counting Sort" with linespoints ls 3
