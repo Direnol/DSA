@@ -1,0 +1,5 @@
+*.o
+laba
+.gitignore
+obj/
+a.out
