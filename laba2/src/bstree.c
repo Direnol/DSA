@@ -1,18 +1,20 @@
 #include "bstree.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /* Create tree */
 BSTree *bstree_create(char *name, int value)
 {
 	
 	BSTree *tr;
-	tr = malloc(sizeof(BSTree));
+	tr = malloc(sizeof(*tr));
 	if (tr == NULL) {
 		return tr;
 	}
 	
-	tr->Data.name = name;
-	tr->Data.value = value;
+	tr->data.name = name;
+	tr->data.value = value;
 	tr->left = NULL;
 	tr->right = NULL;
 	
@@ -28,20 +30,21 @@ BSTree *bstree_add(BSTree *tree, char *name, int value)
 		return tree;
 	}
 	
-	int cmp = strcmp(name, tree->Data.name);
-	BSTree *tr;
+	int cmp = strcmp(name, tree->data.name);
+	BSTree *tr, *root;
 	tr = bstree_create(name, value);
+	root = tree;
 	
 	/* if the node already exsist */
 	if (cmp == 0) {
-		tree->Data.value = value;
+		tree->data.value = value;
 		return tree;
 	} else if (cmp < 0) {
 		tree->left = bstree_add(tree->left, name, value);
 	} else {
 		tree->right = bstree_add(tree->right, name, value);
 	}
-	return tree;
+	return root;
 }
 
 /* Lookup *name in tree */
@@ -52,7 +55,7 @@ BSTree *bstree_lookup(BSTree *tree, char *name)
 		return NULL;
 	}
 	
-    int cmp = strcmp(name, tree->Data.name);
+    int cmp = strcmp(name, tree->data.name);
    
 	if (cmp == 0) {
 		return tree;
@@ -65,10 +68,22 @@ BSTree *bstree_lookup(BSTree *tree, char *name)
 
 BSTree *bstree_min(BSTree *tree)
 {
-    
+	if (tree == NULL)
+		return NULL;
+		
+    while (tree->left != NULL) {
+		tree = tree->left;
+	}
+	return tree;
 }
 
 BSTree *bstree_max(BSTree *tree)
-{
-    
+{	
+	if (tree == NULL)
+		return NULL;
+		
+    while (tree->left != NULL) {
+		tree = tree->right;
+	}
+	return tree;
 }
