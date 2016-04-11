@@ -8,7 +8,11 @@ BSTree *bstree_create(char *name, int value)
 {
 	
 	BSTree *tr;
+<<<<<<< HEAD
 	tr = malloc(sizeof(BSTree));
+=======
+	tr = malloc(sizeof(*tr));
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
 	if (tr == NULL) {
 		return tr;
 	}
@@ -31,6 +35,7 @@ BSTree *bstree_add(BSTree *tree, char *name, int value)
 	}
 	
 	int cmp = strcmp(name, tree->data.name);
+<<<<<<< HEAD
 	BSTree *tr, *parent;
 	tr = bstree_create(name, value);
 	for (parent = tree; tree != NULL;) {
@@ -52,6 +57,22 @@ BSTree *bstree_add(BSTree *tree, char *name, int value)
 		parent->right = tr;
 	
 	return tree;
+=======
+	BSTree *tr, *root;
+	tr = bstree_create(name, value);
+	root = tree;
+	
+	/* if the node already exsist */
+	if (cmp == 0) {
+		tree->data.value = value;
+		return tree;
+	} else if (cmp < 0) {
+		tree->left = bstree_add(tree->left, name, value);
+	} else {
+		tree->right = bstree_add(tree->right, name, value);
+	}
+	return root;
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
 }
 
 /* Lookup *name in tree */
@@ -78,12 +99,19 @@ BSTree *bstree_min(BSTree *tree)
 	if (tree == NULL)
 		return NULL;
 		
+<<<<<<< HEAD
     while (tree->left != NULL)
 		tree = tree->left;
+=======
+    while (tree->left != NULL) {
+		tree = tree->left;
+	}
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
 	return tree;
 }
 
 BSTree *bstree_max(BSTree *tree)
+<<<<<<< HEAD
 {
 	if (tree == NULL)
 		return NULL;
@@ -91,4 +119,14 @@ BSTree *bstree_max(BSTree *tree)
     while (tree->right != NULL)
 		tree = tree->right;
 	return tree;   
+=======
+{	
+	if (tree == NULL)
+		return NULL;
+		
+    while (tree->left != NULL) {
+		tree = tree->right;
+	}
+	return tree;
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
 }

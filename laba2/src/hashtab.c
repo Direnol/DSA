@@ -1,4 +1,5 @@
 #include "hashtab.h"
+<<<<<<< HEAD
 #include "stdlib.h"
 #include <string.h>
 
@@ -86,3 +87,6 @@ void hashtab_delete(listnode **hashtab, char *key)
 		}
 		prev = p;
 }
+=======
+
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b

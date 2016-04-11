@@ -1,6 +1,7 @@
 #ifndef HASHTAB_H
 #define HASHTAB_H
 
+<<<<<<< HEAD
 typedef struct listnode {
 	char *key;
 	int value;
@@ -14,4 +15,6 @@ void hashtab_add(listnode **hashtab, char *key, int value);
 listnode *hashtab_lookup(listnode **hashtab, char *key);
 void hashtab_delete(listnode **hashtab, char *key);
 
+=======
+>>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
 #endif
