@@ -1,30 +1,5 @@
-<<<<<<< HEAD
-#include <stdio.h>
 #include "bstree.h"
 #include "hashtab.h"
-
-#define MAX_WORD 33
-
-int main()
-{
-	BSTree *tree = NULL, *look_node = NULL;
-	listnode *hashtab[HASH_SIZE];
-	
-	hashtab_init(hashtab);
-	
-	FILE *ptr;
-	ptr = fopen("../task/wap.txt", "r");
-	
-	char buf[MAX_WORD];
-	
-	while (!feof(ptr)) {
-		buf = fscanf(ptr, "%s\n", buf);
-	}
-	
-	return 0;
-}
-=======
-#include "bstree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "util.h"
@@ -32,7 +7,7 @@ int main()
 
 char *input(char *name, int *size);
 
-int main() 
+int main(int argc, char *argv[]) 
 {
     if (argc < 2) {
         fprintf(stderr, "Missing table size!\n");
@@ -51,52 +26,63 @@ int main()
         return EXIT_FAILURE;
     }
     
-    FILE *dictionary = fopen("task/dictionary.dat", "r");
+    FILE *dictionary = fopen("../task/dictionary.dat", "r");
     if (dictionary == NULL) {
         fprintf(stderr, "Can't open data file...\n");
         return EXIT_FAILURE;
     }
 
     int size = atoi(argv[1]);
-    
-    srand(time(NULL));
-    int rand_node = rand() % size;
-
-    double time;
+    int i;
     
     hashtab_init(hashtab);
     BSTree *tree = NULL;
+    char *words[size];
+    
+    for (i = 0; i < size; i++) {
+		fscanf(dictionary, "%s\n", words[i]);
+		bstree_add(tree, words[i], i);
+		hashtab_add(hashtab, words[i], i);
+	}
+	
+	srand(time(NULL));
+    int rand_node = rand() % size;
+    char rand_data = words[rand_node];
+    char *add_node = "САОД";
+    double time;
+    
+    
 
     /* Task 1 */
     BSTree *lkt = NULL;
     time = wtime();
     lkt = bstree_lookup(tree, rand_data);
     time = wtime() - time;
-    fprintf(outex1, "%d\t%.8f", table_size, time);
-    printf("%s %d\n", lkt->data.key, lkt->data.value);
+    fprintf(out1, "%d\t%.8f", size, time);
+    printf("%s %d\n", lkt->data.name, lkt->data.value);
     
-    ListNode *lks = NULL;
+    listnode *lkh = NULL;
     time = wtime();
-    lks = hashtab_lookup(hashtab, rand_data);
+    lkh = hashtab_lookup(hashtab, rand_data);
     time = wtime() - time;
-    fprintf(outex1, "\t%.8f\n", time);
-    printf("%s %d\n", lks->data.key, lks->data.value);
+    fprintf(out1, "\t%.8f\n", time);
+    printf("%s %d\n", lkh->key, lkh->value);
     
      /* Task 2 */
     time = wtime();
-    bstree_add(tree, test, table_size + 1);
+    bstree_add(tree, add_node, size + 1);
     time = wtime() - time;
-    fprintf(outex2, "%d\t%.8f", table_size, time);
+    fprintf(out2, "%d\t%.8f", size, time);
     
     time = wtime();
-    hashtab_add(hashtab, test, table_size + 1);
+    hashtab_add(hashtab, add_node, size + 1);
     time = wtime() - time;
-    fprintf(outex2, "\t%.8f\n", time);
+    fprintf(out2, "\t%.8f\n", time);
     
-    fclose(outex1);
-    fclose(outex2);
+    fclose(out1);
+    fclose(out2);
     fclose(dictionary);
+    
     return 0;
 
 }
->>>>>>> 655ac7fb1f0ec3a01f19fbc99b9b1f887aab074b
