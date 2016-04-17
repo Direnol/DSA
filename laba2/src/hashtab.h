@@ -1,22 +1,26 @@
 #ifndef HASHTAB_H
 #define HASHTAB_H
 
-#define HASH_MUL 31
-#define HASH_SIZE 127
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
 
-typedef struct listnode {
+#define HASHTAB_SIZE 128
+#define HASHTAB_MUL 31
+
+struct listnode {
 	char *key;
 	int value;
-	struct	listnode *next;
-} listnode;
+	struct listnode *next;
+};
+struct listnode *hashtab[HASHTAB_SIZE];
 
-listnode *hashtab[HASH_SIZE];
-
-int hashtab_hash(char *key);
-int jenkins_hash(char *key, int len);
-void hashtab_init(listnode **hashtab);
-void hashtab_add(listnode **hashtab, char *key, int value);
-listnode *hashtab_lookup(listnode **hashtab, char *key);
-void hashtab_delete(listnode **hashtab, char *key);
+    unsigned int hashtab_hash(char *key);
+    unsigned int jenkins_hash(char *key, int len);
+    void hashtab_init(struct listnode **hashtab);
+    void hashtab_add(struct listnode **hashtab, char *key, int value, int f_hash);
+    struct listnode *hashtab_lookup(struct listnode **hashtab, char *key, int f_hash);
+    void hashtab_delete(struct listnode **hashtab, char *key, int f_hash);
 
 #endif

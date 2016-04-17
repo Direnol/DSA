@@ -1,49 +1,50 @@
 #include "hashtab.h"
-#include <stdlib.h>
-#include <string.h>
 
-int hashtab_hash(char *key)
+unsigned int jenkins_hash(char *key, int len) 
+{
+	unsigned int hash, i = 0;
+	for (hash = i; i < len; ++i) {
+        hash += key[i];
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+    }
+        hash += (hash << 3);
+        hash ^= (hash >> 11);
+        hash += (hash << 15);
+	return hash % HASHTAB_SIZE;
+}
+
+unsigned int hashtab_hash(char *key)
 {
 	unsigned int h = 0;
 	char *p;
-	
+    
 	for (p = key; *p != '\0'; p++) {
-		h = h * HASH_MUL + (unsigned int)*p;
+		h = h * HASHTAB_MUL + (unsigned int) * p;
 	}
-	
-	return h % HASH_SIZE;
+    
+	return h % HASHTAB_SIZE;
 }
 
-int jenkins_hash(char *key, int len)
-{
-	unsigned int hash, i; 
-		
-	for (hash = i = 0; i < len; ++i) { 
-		hash += key[i]; 
-		hash += (hash << 10); 
-		hash ^= (hash >> 6); 
-	} 
-	
-		hash += (hash << 3); 
-		hash ^= (hash >> 11); 
-		hash += (hash << 15); 
-	return hash % HASH_SIZE; 
-} 
-
-void hashtab_init(listnode **hashtab)
+void hashtab_init(struct listnode **hashtab)
 {
 	int i;
-	for (i = 0; i < HASH_SIZE; i++) {
+	for (i = 0; i < HASHTAB_SIZE; i++) {
 		hashtab[i] = NULL;
 	}
 }
 
-void hashtab_add(listnode **hashtab, char *key, int value)
+void hashtab_add(struct listnode **hashtab, char *key, int value, int f_hash)
 {
-	listnode *node;
-	
-	int index = hashtab_hash(key);
-	
+	struct listnode *node;
+	int index;
+	if (f_hash == 0) {
+		index = hashtab_hash(key);
+	}
+	else {
+		index = jenkins_hash(key, strlen(key) );
+	}
+	// Вставка в начало списка
 	node = malloc(sizeof(*node));
 	if (node != NULL) {
 		node->key = key;
@@ -53,25 +54,34 @@ void hashtab_add(listnode **hashtab, char *key, int value)
 	}
 }
 
-listnode *hashtab_lookup(listnode **hashtab, char *key)
+struct listnode *hashtab_lookup(struct listnode **hashtab, char *key, int f_hash)
 {
-	int index = hashtab_hash(key);
-	listnode *node;
+	int index;
+	struct listnode *node;
 	
-	for (node = hashtab[index]; node != NULL; node = node->next) {
-		if (strcmp(node->key, key) == 0) {
-			return node;
-		}
+	if (f_hash == 0) {
+		index = hashtab_hash(key);
 	}
-	
+	else {
+		index =jenkins_hash(key, strlen(key) );
+	} 
+	for (node = hashtab[index]; node != NULL; node = node->next) {
+		if (strcmp(node->key, key) == 0)
+			return node;
+	}
 	return NULL;
 }
 
-void hashtab_delete(listnode **hashtab, char *key)
+void hashtab_delete(struct listnode **hashtab, char *key, int f_hash)
 {
-	int index = hashtab_hash(key);
-	listnode *p, *prev = NULL;
-	
+	int index;
+	struct listnode *p, *prev = NULL;
+	if (f_hash == 0) {
+		index = hashtab_hash(key);
+	}
+	else {
+		index = jenkins_hash(key, strlen(key)); 
+	}
 	for (p = hashtab[index]; p != NULL; p = p->next) {
 		if (strcmp(p->key, key) == 0) {
 			if (prev == NULL)
@@ -81,7 +91,6 @@ void hashtab_delete(listnode **hashtab, char *key)
 			free(p);
 			return;
 		}
-	}
 		prev = p;
+	}
 }
-
