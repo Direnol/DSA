@@ -94,3 +94,14 @@ void hashtab_delete(struct listnode **hashtab, char *key, int f_hash)
 		prev = p;
 	}
 }
+
+int list_coliz(struct listnode *node)
+{
+    int size = 0;
+    
+    while (node->next != NULL) {
+        size++;
+        node = node->next;
+    }
+    return size;
+}

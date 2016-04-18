@@ -18,9 +18,9 @@ int main(int argc, char **argv)
 	}
 	int size = atoi(argv[1]);
 	
-	FILE *input = fopen("../task/input.dat", "r");
+	FILE *input = fopen("task/dictionary.dat", "r");
 	if (input == NULL) {
-	    printf("Can't open input file!\n");
+	    printf("Can't open dictionary file!\n");
 	    return EXIT_FAILURE;
 	}
 	
@@ -62,10 +62,10 @@ int main(int argc, char **argv)
 	int coliz = 0;
 	for (i = 0; i < HASHTAB_SIZE; i++) {
 	    if (hashtab[i] != NULL) {
-		hash_node=hashtab[i];
+            hash_node=hashtab[i];
 		if (hash_node->next != NULL) {
 		    //printf("hashtab %d %s\n",i, hash_node->key);
-		    coliz++;
+		    coliz += list_coliz(hash_node);
 		}
 	    }
 	}
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		hash_node=hashtab[i];
 		if (hash_node->next != NULL) {
 		    //printf("hashtab %d %s\n",i, hash_node->key);
-		    coliz++;
+		    coliz += list_coliz(hash_node);
 		}
 	    }
 	}

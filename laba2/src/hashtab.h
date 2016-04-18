@@ -22,5 +22,6 @@ struct listnode *hashtab[HASHTAB_SIZE];
     void hashtab_add(struct listnode **hashtab, char *key, int value, int f_hash);
     struct listnode *hashtab_lookup(struct listnode **hashtab, char *key, int f_hash);
     void hashtab_delete(struct listnode **hashtab, char *key, int f_hash);
+    int list_coliz(struct listnode *node);
 
 #endif
