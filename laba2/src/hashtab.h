@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define HASHTAB_SIZE 128
+#define HASHTAB_SIZE 13027
 #define HASHTAB_MUL 31
 
 struct listnode {

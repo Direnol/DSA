@@ -107,11 +107,11 @@ int main(int argc, char **argv)
 	lookup_time_hashtab = lookup_time_hashtab/exp;
 	
 	FILE *tb1;
-	tb1 = fopen("../test/bstree_lookup.dat", "a");
+	tb1 = fopen("test/bstree_lookup.dat", "a");
 	fprintf(tb1, "%d %.8f\n", size, lookup_time_bstree);
 
 	FILE *tb2;
-	tb2 = fopen("../test/hashtab_lookup_KPHash.dat", "a");
+	tb2 = fopen("test/hashtab_lookup_KPHash.dat", "a");
 	fprintf(tb2, "%d %.8f %d\n", size, lookup_time_hashtab, coliz);
 	//--
 	
@@ -134,13 +134,13 @@ int main(int argc, char **argv)
 	}
 	add_time_bstree = add_time_bstree/exp;
 	FILE *tb3;
-	tb3 = fopen("../test/bstree_add.dat", "a");
+	tb3 = fopen("test/bstree_add.dat", "a");
 	fprintf(tb3, "%d %.8f\n", size, add_time_bstree);
 	printf ("BSTree: %s, %d %.8f\n",buf[size],size+1, add_time_bstree);	    
 
 	add_time_hashtab = add_time_hashtab/exp;
 	FILE *tb4;
-	tb4 = fopen("../test/hashtab_add.dat", "a");
+	tb4 = fopen("test/hashtab_add.dat", "a");
 	fprintf(tb4, "%d %.8f\n", size, add_time_hashtab);
 	printf("HashTab (KPHash): %s, %d %.8f\n",buf[size], size+1, add_time_hashtab);
 	//--
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
 	lookup_time_hashtab_JENKINSHash = lookup_time_hashtab_JENKINSHash/exp;
 	
 	FILE *tb5;
-	tb5 = fopen("../test/hashtab_lookup_JENKINSash.dat", "a");
+	tb5 = fopen("test/hashtab_lookup_JENKINSash.dat", "a");
 	fprintf(tb5, "%d %.8f %d\n", size, lookup_time_hashtab_JENKINSHash, coliz);
 	//--
 	return 0;
