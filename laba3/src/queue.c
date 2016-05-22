@@ -25,7 +25,7 @@ int queue_size(struct queue *q)
 
 void queue_enqueue(struct queue *q, int value)
 {
-    struct listnode *oldtail = (struct listnode *)q->tail;
+    struct listnode *oldtail = q->tail;
     
     /* Create new node */
     q->tail = list_createnode(value);
@@ -56,3 +56,4 @@ int queue_dequeue(struct queue *q)
     q->size--;
     return value;
 }
+

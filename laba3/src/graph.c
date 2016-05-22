@@ -6,7 +6,7 @@ struct graph *graph_create(int nvertices)
     struct graph *g;
     g = malloc(sizeof(*g));
     g->nvertices = nvertices;
-    g->visited = malloc(sizeof(int) * nvertices);
+    g->visited = malloc(sizeof(int) * (nvertices + 1));
     g->m = (int **) malloc(nvertices * sizeof(int *));
     if (g->m != NULL) {
         for (int i = 0; i < nvertices; i++) {
@@ -85,4 +85,89 @@ void graph_bfs(struct graph *g, int v)
 	}
     }
     queue_free(q);
+}
+
+int graph_nvertices(struct graph *g)
+{
+    return g->nvertices;
+}
+
+struct path *Serch_Shortest_Path(struct graph *g, int src, int dest)
+{
+    
+    struct g_path *p;
+    p = malloc(sizeof(*p));
+    p->path = malloc(g->nvertices * sizeof(int));
+    
+    int *prev = malloc((g->nvertices + 1) * sizeof(int));
+    int *d = malloc((g->nvertices + 1) * sizeof(int));
+    
+    ShortestPath_Dijekstra(g, src, d, prev);
+    
+    int i = dest;
+    p->pathlen = 1;
+    while (i != src) {
+	p->pathlen = p->pathlen + 1;
+	i = prev[i];
+    }
+    
+    int j = 0;
+    i = dest;
+    
+    while (i != src) {
+	p->path[p->pathlen - j] = i;
+	i = prev[i];
+	j = j + 1;
+    }
+    
+    free(prev);
+    free(d);
+    
+    return p;
+}
+
+void ShortestPath_Dijekstra(struct graph *g, int src, int *d, int *prev)
+{
+    struct heap *prio_q;
+    prio_q = heap_create(g->nvertices);
+    
+    int v;
+    
+    for (v = 1; v <= g->nvertices; v++) {
+	if (v != src) {
+	    g->visited[v] = 0;
+	    d[v] = INT_MAX;
+	    prev[v] = -1;
+	    heap_insert(prio_q, d[v], v);
+	}
+    }
+    
+    d[src] = 0;
+    prev[src] = -1;
+    g->visited[src] = 0;
+    heap_insert(prio_q, d[src], src);
+    
+    struct heapnode node;
+    int tmp;
+    for (v = 1; v <= g->nvertices; v++) {
+	node = heap_extract_min(prio_q);
+	tmp = node.value;
+	g->visited[tmp] = 1;
+	printf("vert %d\n\n", v);
+	printf("min prio %d to vert %d\n", node.key, node.value);
+
+	for (int u  = 1; u <= g->nvertices; u++) {
+	    
+	    int way = graph_get_edge(g, tmp, u);
+	    if ((way != 0) && (g->visited[u] != 1)) {
+		printf("sm ne pos vert %d\nway %d\n", u, way);
+		if (d[tmp] + way < d[u]) {
+		    d[u] = d[tmp] + way;
+		    printf("path do %d = %d\n", u, d[u]);
+		    heap_decrease_key(prio_q, u, d[u]);
+		    prev[u] = tmp;
+		}
+	    }
+	}
+    }
 }
