@@ -92,37 +92,39 @@ int graph_nvertices(struct graph *g)
     return g->nvertices;
 }
 
-struct path *Serch_Shortest_Path(struct graph *g, int src, int dest)
+struct g_path *Serch_Shortest_Path(struct graph *g, int src, int dest)
 {
-    
-    struct g_path *p;
-    p = malloc(sizeof(*p));
-    p->path = malloc(g->nvertices * sizeof(int));
-    
     int *prev = malloc((g->nvertices + 1) * sizeof(int));
     int *d = malloc((g->nvertices + 1) * sizeof(int));
     
     ShortestPath_Dijekstra(g, src, d, prev);
     
+    struct g_path *p;
+    p = malloc(sizeof(*p));
+    
     int i = dest;
-    p->pathlen = 1;
-    while (i != src) {
-	p->pathlen = p->pathlen + 1;
-	i = prev[i];
-    }
     
-    int j = 0;
+    p->pathlen = d[dest];
+    int len = 0;
+    while (i != src) {
+	i = prev[i];
+	len++;
+    }
+    p->edge = len;
+    
+    p->path = calloc(len , sizeof(int));
     i = dest;
+    int j = len;
     
-    while (i != src) {
-	p->path[p->pathlen - j] = i;
+    while(i != src) {
+	p->path[j] = i;
 	i = prev[i];
-	j = j + 1;
+	j--;
     }
-    
+    p->path[j] = src;
     free(prev);
     free(d);
-    
+
     return p;
 }
 
@@ -153,17 +155,17 @@ void ShortestPath_Dijekstra(struct graph *g, int src, int *d, int *prev)
 	node = heap_extract_min(prio_q);
 	tmp = node.value;
 	g->visited[tmp] = 1;
-	printf("vert %d\n\n", v);
-	printf("min prio %d to vert %d\n", node.key, node.value);
+	/*printf("vert %d\n\n", v);
+	printf("min prio %d to vert %d\n", node.key, node.value);*/
 
 	for (int u  = 1; u <= g->nvertices; u++) {
 	    
 	    int way = graph_get_edge(g, tmp, u);
 	    if ((way != 0) && (g->visited[u] != 1)) {
-		printf("sm ne pos vert %d\nway %d\n", u, way);
+		//printf("sm ne pos vert %d\nway %d\n", u, way);
 		if (d[tmp] + way < d[u]) {
 		    d[u] = d[tmp] + way;
-		    printf("path do %d = %d\n", u, d[u]);
+		    //printf("path do %d = %d\n", u, d[u]);
 		    heap_decrease_key(prio_q, u, d[u]);
 		    prev[u] = tmp;
 		}
