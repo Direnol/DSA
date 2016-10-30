@@ -1,5 +1,6 @@
+.PHONY: install
 all: obj/fib.o obj/main.o
-	mkdir obj/
+
 	gcc -o fib -std=c99 obj/fib.o obj/main.o -lm
 
 obj/fib.o: src/fib.c
@@ -9,3 +10,5 @@ obj/fib.o: src/fib.c
 obj/main.o: src/main.c
 	gcc -o main.o -std=c99 -c src/main.c
 	mv main.o obj/
+install:
+	mkdir obj/
