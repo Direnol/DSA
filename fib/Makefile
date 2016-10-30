@@ -1,4 +1,5 @@
 all: obj/fib.o obj/main.o
+	mkdir obj/
 	gcc -o fib -std=c99 obj/fib.o obj/main.o -lm
 
 obj/fib.o: src/fib.c
